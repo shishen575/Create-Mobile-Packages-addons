@@ -57,6 +57,23 @@ Bee Port にTier付きアイテムを入れると、保持しているTierに応
 
 ---
 
+## GitHub Actions による自動ビルド
+
+`.github/workflows/build.yml` で push / PR / リリース作成時に自動ビルドします。
+
+**Create: Mobile Packages は再配布できない第三者MODのjarのため、リポジトリには含めていません。**
+CIでビルドするには、リポジトリの Settings → Secrets and variables → Actions で
+以下のSecretを登録してください:
+
+| Secret名 | 値 |
+|---|---|
+| `CMP_JAR_URL` | `create_mobile_packages-1.20.1-0.6.1.jar` をダウンロードできるURL（自分の private storage 等） |
+
+設定すると、CIが該当URLから jar を取得して `libs/` に配置し、`./gradlew build` を実行します。
+ビルド済みjarは Actions の Artifacts、リリース作成時はそのリリースに自動添付されます。
+
+---
+
 ## Mixin について（重要）
 
 `MixinRoboBeeEntity.java` は CMP 本体の `RoboBeeEntity` の `tick()` メソッドに注入して
