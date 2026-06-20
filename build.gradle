@@ -31,6 +31,7 @@ minecraft {
 }
 
 repositories {
+    maven { url 'https://maven.minecraftforge.net/' }
     maven { url 'https://maven.parchmentmc.org' }
     maven { url 'https://maven.createmod.net' }
     maven { url 'https://mvn.devos.one/snapshots/' }
