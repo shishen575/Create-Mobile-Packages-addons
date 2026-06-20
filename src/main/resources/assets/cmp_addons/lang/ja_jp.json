@@ -1,0 +1,8 @@
+{
+  "item.cmp_addons.robo_bee_t1": "ロボビー [Tier I]",
+  "item.cmp_addons.robo_bee_t2": "ロボビー [Tier II]",
+  "item.cmp_addons.robo_bee_t3": "ロボビー [Tier III]",
+
+  "item.cmp_addons.tiered_bee.tier":  "ティア: %s",
+  "item.cmp_addons.tiered_bee.speed": "速度ボーナス: %s"
+}

@@ -1,0 +1,18 @@
+{
+  "_comment": "Tier3 Robo Bee: Tier2 + ネザライト + エコーシャードでアップグレード",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ENE",
+    "NBN",
+    "ENE"
+  ],
+  "key": {
+    "E": { "item": "minecraft:echo_shard" },
+    "N": { "item": "minecraft:netherite_ingot" },
+    "B": { "item": "cmp_addons:robo_bee_t2" }
+  },
+  "result": {
+    "item": "cmp_addons:robo_bee_t3",
+    "count": 1
+  }
+}
