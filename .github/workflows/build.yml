@@ -51,7 +51,11 @@ jobs:
           TARGET="libs/create_mobile_packages-1.20.1-0.6.1.jar"
           if [ -n "$CMP_JAR_URL" ]; then
             echo "Downloading Create: Mobile Packages jar from secrets.CMP_JAR_URL"
-            curl -fL "$CMP_JAR_URL" -o "$TARGET"
+            curl -fL -A "Mozilla/5.0" "$CMP_JAR_URL" -o "$TARGET"
+            if ! unzip -l "$TARGET" >/dev/null 2>&1; then
+              echo "::error::Downloaded file is not a valid jar/zip. CMP_JAR_URL may not point directly to the jar (e.g. it returned an HTML page)."
+              exit 1
+            fi
           else
             echo "::error::secrets.CMP_JAR_URL is not set. Create: Mobile Packages is a third-party mod jar and cannot be redistributed in this repo. Add a repository secret named CMP_JAR_URL pointing to a download URL for the jar (e.g. a private storage link), or build locally with the jar placed in libs/."
             exit 1
@@ -115,7 +119,11 @@ jobs:
           mkdir -p libs
           TARGET="libs/create_mobile_packages-1.20.1-0.6.1.jar"
           if [ -n "$CMP_JAR_URL" ]; then
-            curl -fL "$CMP_JAR_URL" -o "$TARGET"
+            curl -fL -A "Mozilla/5.0" "$CMP_JAR_URL" -o "$TARGET"
+            if ! unzip -l "$TARGET" >/dev/null 2>&1; then
+              echo "::error::Downloaded file is not a valid jar/zip. CMP_JAR_URL may not point directly to the jar."
+              exit 1
+            fi
           else
             echo "::error::secrets.CMP_JAR_URL is not set."
             exit 1
