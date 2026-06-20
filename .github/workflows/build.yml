@@ -43,7 +43,7 @@ jobs:
           fi
           chmod +x gradlew
 
-      - name: Place Create: Mobile Packages jar
+      - name: "Place Create: Mobile Packages jar"
         env:
           CMP_JAR_URL: ${{ secrets.CMP_JAR_URL }}
         run: |
@@ -108,7 +108,7 @@ jobs:
           fi
           chmod +x gradlew
 
-      - name: Place Create: Mobile Packages jar
+      - name: "Place Create: Mobile Packages jar"
         env:
           CMP_JAR_URL: ${{ secrets.CMP_JAR_URL }}
         run: |
