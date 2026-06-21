@@ -1,0 +1,8 @@
+{
+  "item.create_mobile_packages_addons.robo_bee_t1": "ロボビー [Tier I]",
+  "item.create_mobile_packages_addons.robo_bee_t2": "ロボビー [Tier II]",
+  "item.create_mobile_packages_addons.robo_bee_t3": "ロボビー [Tier III]",
+
+  "item.create_mobile_packages_addons.tiered_bee.tier":  "ティア: %s",
+  "item.create_mobile_packages_addons.tiered_bee.speed": "速度ボーナス: %s"
+}

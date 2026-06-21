@@ -1,4 +1,4 @@
-# Create: Mobile Packages Addons
+# Create-Mobile-Packages-addons
 
 **Create: Mobile Packages** のバランスを config で調整できる Addon Mod です。
 
@@ -15,7 +15,7 @@
 | `tier2SpeedMultiplier` | `1.5` | Robo Bee [Tier II] の速度倍率 |
 | `tier3SpeedMultiplier` | `2.5` | Robo Bee [Tier III] の速度倍率 |
 
-設定ファイル: `config/cmp_addons-server.toml`（サーバーサイド設定。サーバーを再起動すると反映されます）
+設定ファイル: `config/create_mobile_packages_addons-server.toml`（サーバーサイド設定。サーバーを再起動すると反映されます）
 
 ### Robo Bee Tier アイテム
 
@@ -53,7 +53,7 @@ Bee Port にTier付きアイテムを入れると、保持しているTierに応
    ```bash
    ./gradlew build
    ```
-3. `build/libs/cmp_addons-1.0.0.jar` を mods フォルダへ
+3. `build/libs/create_mobile_packages_addons-1.0.0.jar` を mods フォルダへ
 
 ---
 

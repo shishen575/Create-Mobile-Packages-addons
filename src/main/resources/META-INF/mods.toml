@@ -3,30 +3,30 @@ loaderVersion="[47,)"
 license="MIT"
 
 [[mixins]]
-    config="cmp_addons.mixins.json"
+    config="create_mobile_packages_addons.mixins.json"
 
-[[dependencies.cmp_addons]]
+[[dependencies.create_mobile_packages_addons]]
     modId="forge"
     mandatory=true
     versionRange="[47.3,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.cmp_addons]]
+[[dependencies.create_mobile_packages_addons]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.cmp_addons]]
+[[dependencies.create_mobile_packages_addons]]
     modId="create"
     mandatory=true
     versionRange="[0.5.1,)"
     ordering="AFTER"
     side="BOTH"
 
-[[dependencies.cmp_addons]]
+[[dependencies.create_mobile_packages_addons]]
     modId="create_mobile_packages"
     mandatory=true
     versionRange="[0.5.0,)"
@@ -34,12 +34,12 @@ license="MIT"
     side="BOTH"
 
 [[mods]]
-    modId="cmp_addons"
+    modId="create_mobile_packages_addons"
     version="${file.jarVersion}"
-    displayName="Create: Mobile Packages Addons"
+    displayName="Create-Mobile-Packages-addons"
     description='''
     Create: Mobile Packages 向けのバランス調整アドオンです。
-    config/cmp_addons-server.toml で Robo Bee の輸送速度を倍率調整できます。
+    config/create_mobile_packages_addons-server.toml で Robo Bee の輸送速度を倍率調整できます。
     '''
-    logoFile="cmp_addons_icon.png"
+    logoFile="create_mobile_packages_addons_icon.png"
     authors="YourName"

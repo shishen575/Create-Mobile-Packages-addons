@@ -79,7 +79,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: cmp-addons
+          name: create-mobile-packages-addons
           path: build/libs/*.jar
           if-no-files-found: error
 

@@ -4,8 +4,8 @@ plugins {
 }
 
 version = '1.0.0'
-group = 'com.example.cmp_addons'
-archivesBaseName = 'cmp_addons'
+group = 'com.example.create_mobile_packages_addons'
+archivesBaseName = 'create_mobile_packages_addons'
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -20,13 +20,13 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            mods { cmp_addons { source sourceSets.main } }
+            mods { create_mobile_packages_addons { source sourceSets.main } }
         }
         server {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            mods { cmp_addons { source sourceSets.main } }
+            mods { create_mobile_packages_addons { source sourceSets.main } }
         }
     }
 }
@@ -60,7 +60,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            'Specification-Title'     : 'cmp_addons',
+            'Specification-Title'     : 'create_mobile_packages_addons',
             'Specification-Vendor'    : 'example',
             'Specification-Version'   : '1',
             'Implementation-Title'    : project.name,

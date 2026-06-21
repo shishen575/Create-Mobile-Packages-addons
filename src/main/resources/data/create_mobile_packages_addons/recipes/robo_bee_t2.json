@@ -1,0 +1,17 @@
+{
+  "_comment": "Tier2 Robo Bee: Tier1 + ダイヤモンドでアップグレード",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "DBD",
+    " D "
+  ],
+  "key": {
+    "D": { "item": "minecraft:diamond" },
+    "B": { "item": "create_mobile_packages_addons:robo_bee_t1" }
+  },
+  "result": {
+    "item": "create_mobile_packages_addons:robo_bee_t2",
+    "count": 1
+  }
+}

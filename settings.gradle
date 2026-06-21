@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'cmp_addons'
+rootProject.name = 'create_mobile_packages_addons'
