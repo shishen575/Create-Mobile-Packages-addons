@@ -4,9 +4,14 @@
   "package": "com.example.cmp_addons.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MixinRoboBeeEntity"
+    "MixinRoboManager",
+    "MixinRoboEntity",
+    "MixinVirtualRobo",
+    "VirtualRoboAccessor"
   ],
-  "client": [],
+  "client": [
+    "MixinDroneEntityRenderer"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

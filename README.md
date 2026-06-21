@@ -28,9 +28,9 @@
 Bee Port にTier付きアイテムを入れると、保持しているTierに応じた速度倍率が適用されます。
 各Tierの倍率は上記の config 項目でいつでも変更できます。
 
-> **注意:** `assets/cmp_addons/textures/item/robo_bee_t1.png` 等のテクスチャ画像は未収録です。
-> モデルファイル（`models/item/robo_bee_t*.json`）は用意済みなので、同名のPNGを
-> `src/main/resources/assets/cmp_addons/textures/item/` に配置してください（未配置の場合は紫黒の missing texture になります）。
+見た目は本物のRobo Beeと同じ3Dモデル（CMP本体のBlockbenchモデルをそのまま使用）で、
+本体パネルの色だけTierごとに変えています（金/シアン/紫）。インベントリ表示・手持ち表示・
+**飛行中（Bee Port間を移動中）の見た目**のいずれも、保持しているTierに応じたテクスチャになります。
 
 今後、ケースの容量・加工時間・コストなど他のバランス項目もこのアドオンに追加していく想定です。
 
@@ -76,11 +76,22 @@ CIでビルドするには、リポジトリの Settings → Secrets and variabl
 
 ## Mixin について（重要）
 
-`MixinRoboBeeEntity.java` は CMP 本体の `RoboBeeEntity` の `tick()` メソッドに注入して
-移動速度の基底値に config の倍率を掛けています。
+CMP本体には「配置済みのRobo Beeが、どのアイテム（Tier）から生まれたか」を保持する仕組みが
+存在しないため、以下のMixinチェーンで実現しています。
 
-CMP本体の実装が変わった場合は、速度の保持・適用方法を decompile して
-Mixin のターゲットを合わせて修正してください。
+1. `TieredRoboBeeItem` が CMP本体の `RoboBeeItem` を継承し、配置(`useOn`)直前に
+   自分のTierを `PLACING_TIER`（ThreadLocal）にセットする。
+2. `MixinRoboManager` が `RoboManager#newRobo` の戻り値（生成されたVirtualRoboのUUID）を捉え、
+   `PLACING_TIER` の値を読んでそのVirtualRoboにTierをタグ付けする（同時に速度倍率を適用）。
+3. `MixinVirtualRobo` が `VirtualRobo` にTierフィールドを追加し、`serializeNBT`/`deserializeNBT`
+   経由でワールド保存・再読み込み後もTierを保持する。
+4. `MixinRoboEntity` が `RoboEntity` に同期データ（`EntityDataAccessor<String>`）を追加し、
+   `syncFromVirtual` のたびにTierをクライアントへ同期する。
+5. `MixinDroneEntityRenderer` が描画時のテクスチャ取得 (`getTextureLocation`) を横取りし、
+   同期されたTierに応じたテクスチャに切り替える。
+
+CMP本体の実装（`RoboManager`/`VirtualRobo`/`RoboEntity`/`DroneEntityRenderer`のメソッド名や
+シグネチャ）が変わった場合は、各Mixinのターゲットを decompile して合わせ直してください。
 
 ---
 

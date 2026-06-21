@@ -2,33 +2,34 @@ package com.example.cmp_addons.items;
 
 import com.example.cmp_addons.BeeTier;
 import com.example.cmp_addons.config.CMPAddonsConfig;
+import de.theidler.create_mobile_packages.items.robo_bee.RoboBeeItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
- * Tier 情報を NBT で保持する Robo Bee アイテム。
+ * Tier 情報を持つ Robo Bee アイテム。
  *
- * <p>NBT構造:
- * <pre>
- *   {
- *     "cmp_tier": "tier1" | "tier2" | "tier3"
- *   }
- * </pre>
- *
- * <p>Bee Port に入れるとそのTierの速度倍率で飛行する RoboBeeEntity を生成します。
+ * <p>CMP本体の {@link RoboBeeItem} をそのまま継承し、配置動作（useOn）はCMP本体のものを使う。
+ * 配置直前に {@link #PLACING_TIER} へ自分のTierをセットしておくことで、
+ * {@code MixinRoboManager} が生成された VirtualRobo にこのTierをタグ付けする。
  */
-public class TieredRoboBeeItem extends Item {
+public class TieredRoboBeeItem extends RoboBeeItem {
 
-    /** ItemStackからTierを読み取るNBTキー */
-    public static final String NBT_TIER_KEY = "cmp_tier";
+    /**
+     * 配置処理中だけ使うスレッドローカル。MixinRoboManager がここを読んで
+     * 生成直後のVirtualRoboにTierを反映する。
+     */
+    public static final ThreadLocal<BeeTier> PLACING_TIER = new ThreadLocal<>();
 
     private final BeeTier tier;
 
@@ -41,6 +42,16 @@ public class TieredRoboBeeItem extends Item {
         return tier;
     }
 
+    @Override
+    public @NotNull InteractionResult useOn(UseOnContext context) {
+        PLACING_TIER.set(this.tier);
+        try {
+            return super.useOn(context);
+        } finally {
+            PLACING_TIER.remove();
+        }
+    }
+
     /** ItemStackがTier付きRoboBeeかどうか */
     public static boolean isTiered(ItemStack stack) {
         return stack.getItem() instanceof TieredRoboBeeItem;
@@ -49,8 +60,8 @@ public class TieredRoboBeeItem extends Item {
     /** このItemStackのTierを取得（NBT優先、なければフィールド値） */
     public static BeeTier getTierFromStack(ItemStack stack) {
         CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains(NBT_TIER_KEY)) {
-            return BeeTier.fromKey(tag.getString(NBT_TIER_KEY));
+        if (tag != null && tag.contains("cmp_tier")) {
+            return BeeTier.fromKey(tag.getString("cmp_tier"));
         }
         if (stack.getItem() instanceof TieredRoboBeeItem tiered) {
             return tiered.tier;

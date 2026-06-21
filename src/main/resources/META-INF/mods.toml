@@ -41,4 +41,5 @@ license="MIT"
     Create: Mobile Packages 向けのバランス調整アドオンです。
     config/cmp_addons-server.toml で Robo Bee の輸送速度を倍率調整できます。
     '''
+    logoFile="cmp_addons_icon.png"
     authors="YourName"
