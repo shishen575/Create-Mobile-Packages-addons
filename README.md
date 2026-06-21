@@ -25,6 +25,9 @@
 | Robo Bee [Tier II]  | Tier I + ダイヤモンド4個 | デフォルト1.5倍速（config調整可） |
 | Robo Bee [Tier III] | Tier II + ネザライト4個 + エコーシャード4個 | デフォルト2.5倍速（config調整可） |
 
+3つともクリエイティブインベントリの「Ingredients」タブと、JEI等のレシピ表示MODのアイテムリストに表示されます
+（クラフトレシピも通常の `minecraft:crafting_shaped` なので自動的にJEIで表示されます）。
+
 Bee Port にTier付きアイテムを入れると、保持しているTierに応じた速度倍率が適用されます。
 各Tierの倍率は上記の config 項目でいつでも変更できます。
 
