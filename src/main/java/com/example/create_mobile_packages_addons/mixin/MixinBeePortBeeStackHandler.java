@@ -1,5 +1,6 @@
 package com.example.create_mobile_packages_addons.mixin;
 
+import com.example.create_mobile_packages_addons.CMPAddons;
 import com.example.create_mobile_packages_addons.items.TieredRoboBeeItem;
 import de.theidler.create_mobile_packages.blocks.bee_port.BeePortBeeStackHandler;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +24,8 @@ public abstract class MixinBeePortBeeStackHandler {
     // SRG名を直接指定する。開発環境(deobf)用に元の名前も併記）。
     @Inject(method = {"mayPlace", "m_5857_"}, at = @At("HEAD"), cancellable = true, remap = false)
     private void cmpa$allowTieredBee(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        CMPAddons.LOGGER.info("[cmpa-debug] mayPlace called with stack={} isTiered={}",
+                stack, TieredRoboBeeItem.isTiered(stack));
         if (TieredRoboBeeItem.isTiered(stack)) {
             cir.setReturnValue(true);
             cir.cancel();
