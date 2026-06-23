@@ -1,4 +1,6 @@
 {
+  "itemGroup.create_mobile_packages_addons": "Create: Mobile Packages Addons",
+
   "item.create_mobile_packages_addons.robo_bee_t1": "Robo Bee [Tier I]",
   "item.create_mobile_packages_addons.robo_bee_t2": "Robo Bee [Tier II]",
   "item.create_mobile_packages_addons.robo_bee_t3": "Robo Bee [Tier III]",

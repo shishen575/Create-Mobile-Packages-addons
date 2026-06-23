@@ -34,12 +34,21 @@ public class TieredRoboBeeItem extends RoboBeeItem {
     private final BeeTier tier;
 
     public TieredRoboBeeItem(BeeTier tier, Properties props) {
-        super(props.stacksTo(16));
+        super(props);
         this.tier = tier;
     }
 
     public BeeTier getTier() {
         return tier;
+    }
+
+    /**
+     * 最大スタック数を config/create_mobile_packages_addons-server.toml の
+     * stackSize から動的に取得する（デフォルト64）。
+     */
+    @Override
+    public int getMaxStackSize(@NotNull ItemStack stack) {
+        return CMPAddonsConfig.SERVER.stackSize.get();
     }
 
     @Override

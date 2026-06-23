@@ -42,6 +42,9 @@ public class CMPAddonsConfig {
         /** Tier 3 アイテムの速度倍率 */
         public final ForgeConfigSpec.DoubleValue tier3SpeedMultiplier;
 
+        /** Tier付きRoboBeeアイテムの最大スタック数 */
+        public final ForgeConfigSpec.IntValue stackSize;
+
         Server(ForgeConfigSpec.Builder builder) {
 
             builder.comment("Create: Mobile Packages - 輸送速度調整")
@@ -56,16 +59,26 @@ public class CMPAddonsConfig {
                    .push("beeTier");
 
             tier1SpeedMultiplier = builder
-                    .comment("Tier 1 の速度倍率", "デフォルト: 1.0 → 無印と同じ速度")
-                    .defineInRange("tier1SpeedMultiplier", 1.0D, 0.1D, 20.0D);
+                    .comment("Tier 1 の速度倍率", "デフォルト: 2.0 → 基本速度の+100%")
+                    .defineInRange("tier1SpeedMultiplier", 2.0D, 0.1D, 20.0D);
 
             tier2SpeedMultiplier = builder
-                    .comment("Tier 2 の速度倍率", "デフォルト: 1.5 → 1.5倍速")
-                    .defineInRange("tier2SpeedMultiplier", 1.5D, 0.1D, 20.0D);
+                    .comment("Tier 2 の速度倍率", "デフォルト: 4.0 → 基本速度の+300%")
+                    .defineInRange("tier2SpeedMultiplier", 4.0D, 0.1D, 20.0D);
 
             tier3SpeedMultiplier = builder
-                    .comment("Tier 3 の速度倍率", "デフォルト: 2.5 → 2.5倍速")
-                    .defineInRange("tier3SpeedMultiplier", 2.5D, 0.1D, 20.0D);
+                    .comment("Tier 3 の速度倍率", "デフォルト: 6.0 → 基本速度の+500%")
+                    .defineInRange("tier3SpeedMultiplier", 6.0D, 0.1D, 20.0D);
+
+            builder.pop();
+
+            builder.comment("Robo Bee Tier アイテムのスタック設定")
+                   .push("itemStack");
+
+            stackSize = builder
+                    .comment("Robo Bee Tier アイテム（Tier I/II/III）1スタックあたりの最大個数。",
+                             "デフォルト: 64")
+                    .defineInRange("stackSize", 64, 1, 1024);
 
             builder.pop();
         }

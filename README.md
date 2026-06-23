@@ -11,9 +11,10 @@
 | 設定項目 | デフォルト | 説明 |
 |---|---|---|
 | `roboBeeSpeedMultiplier` | `1.0` | Tierアイテムを持たない無印 Robo Bee の速度倍率 |
-| `tier1SpeedMultiplier` | `1.0` | Robo Bee [Tier I] の速度倍率 |
-| `tier2SpeedMultiplier` | `1.5` | Robo Bee [Tier II] の速度倍率 |
-| `tier3SpeedMultiplier` | `2.5` | Robo Bee [Tier III] の速度倍率 |
+| `tier1SpeedMultiplier` | `2.0` | Robo Bee [Tier I] の速度倍率（基本速度の+100%） |
+| `tier2SpeedMultiplier` | `4.0` | Robo Bee [Tier II] の速度倍率（基本速度の+300%） |
+| `tier3SpeedMultiplier` | `6.0` | Robo Bee [Tier III] の速度倍率（基本速度の+500%） |
+| `stackSize` | `64` | Robo Bee Tier アイテム（I/II/III共通）の最大スタック数 |
 
 設定ファイル: `config/create_mobile_packages_addons-server.toml`（サーバーサイド設定。サーバーを再起動すると反映されます）
 
@@ -21,11 +22,14 @@
 
 | アイテム | クラフト | 説明 |
 |---|---|---|
-| Robo Bee [Tier I]   | 通常のRoboBee + 金インゴット4個 | デフォルトでは無印と同速度（config調整可） |
-| Robo Bee [Tier II]  | Tier I + ダイヤモンド4個 | デフォルト1.5倍速（config調整可） |
-| Robo Bee [Tier III] | Tier II + ネザライト4個 + エコーシャード4個 | デフォルト2.5倍速（config調整可） |
+| Robo Bee [Tier I]   | 通常のRoboBee + 金インゴット4個 | デフォルト+100%速度（config調整可） |
+| Robo Bee [Tier II]  | Tier I + ダイヤモンド4個 | デフォルト+300%速度（config調整可） |
+| Robo Bee [Tier III] | Tier II + ネザライト4個 + エコーシャード4個 | デフォルト+500%速度（config調整可） |
 
-3つともクリエイティブインベントリの「Ingredients」タブと、JEI等のレシピ表示MODのアイテムリストに表示されます
+3つとも1スタック最大64個（config調整可）。
+
+3つとも専用クリエイティブタブ「Create: Mobile Packages Addons」にまとめて表示され、
+JEI等のレシピ表示MODのアイテムリストにも表示されます
 （クラフトレシピも通常の `minecraft:crafting_shaped` なので自動的にJEIで表示されます）。
 
 Bee Port にTier付きアイテムを入れると、保持しているTierに応じた速度倍率が適用されます。

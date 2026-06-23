@@ -42,4 +42,4 @@ license="MIT"
     config/create_mobile_packages_addons-server.toml で Robo Bee の輸送速度を倍率調整できます。
     '''
     logoFile="create_mobile_packages_addons_icon.png"
-    authors="YourName"
+    authors="shishen575"
