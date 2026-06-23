@@ -9,7 +9,6 @@ archivesBaseName = 'create_mobile_packages_addons'
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
-    withSourcesJar()
 }
 
 minecraft {
