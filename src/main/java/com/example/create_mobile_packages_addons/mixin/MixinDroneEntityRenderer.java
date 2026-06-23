@@ -23,6 +23,7 @@ public abstract class MixinDroneEntityRenderer {
         ResourceLocation override = CMPAddonsTextures.forTierKey(tiered.cmpa$getTierKey());
         if (override != null) {
             cir.setReturnValue(override);
+            cir.cancel();
         }
     }
 }

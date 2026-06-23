@@ -47,6 +47,7 @@ public abstract class MixinBeePortMenu {
 
         if (space <= 0) {
             cir.setReturnValue(ItemStack.EMPTY);
+            cir.cancel();
             return;
         }
 
@@ -68,5 +69,6 @@ public abstract class MixinBeePortMenu {
         ItemStack result = stack.copy();
         result.setCount(toMove);
         cir.setReturnValue(result);
+        cir.cancel();
     }
 }

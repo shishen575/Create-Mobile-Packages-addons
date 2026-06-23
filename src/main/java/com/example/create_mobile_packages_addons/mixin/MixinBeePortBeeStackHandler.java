@@ -22,6 +22,7 @@ public abstract class MixinBeePortBeeStackHandler {
     private void cmpa$allowTieredBee(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (TieredRoboBeeItem.isTiered(stack)) {
             cir.setReturnValue(true);
+            cir.cancel();
         }
     }
 }
