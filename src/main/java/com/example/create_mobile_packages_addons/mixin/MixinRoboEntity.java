@@ -25,7 +25,9 @@ public abstract class MixinRoboEntity implements ITieredEntity {
     private static final EntityDataAccessor<String> cmpa$TIER_KEY =
             SynchedEntityData.defineId(RoboEntity.class, EntityDataSerializers.STRING);
 
-    @Inject(method = "defineSynchedData", at = @At("TAIL"))
+    // defineSynchedData は vanilla Entity#defineSynchedData のオーバーライドのため、
+    // 配布jarではSRG名（例: m_8097_）にリネームされている。remap=true で解決する。
+    @Inject(method = "defineSynchedData", at = @At("TAIL"), remap = true)
     private void cmpa$defineTier(CallbackInfo ci) {
         RoboEntity self = (RoboEntity) (Object) this;
         self.getEntityData().define(cmpa$TIER_KEY, "");

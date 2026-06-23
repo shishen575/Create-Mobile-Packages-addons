@@ -18,7 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = BeePortBeeStackHandler.class, remap = false)
 public abstract class MixinBeePortBeeStackHandler {
 
-    @Inject(method = "mayPlace", at = @At("HEAD"), cancellable = true)
+    // mayPlace は vanilla Slot#mayPlace のオーバーライドのため、配布jarではSRG名
+    // (例: m_5857_) にリネームされている。remap=true でForgeの公式マッピングを使い解決する。
+    @Inject(method = "mayPlace", at = @At("HEAD"), cancellable = true, remap = true)
     private void cmpa$allowTieredBee(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (TieredRoboBeeItem.isTiered(stack)) {
             cir.setReturnValue(true);
