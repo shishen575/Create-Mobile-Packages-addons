@@ -26,8 +26,9 @@ public abstract class MixinRoboEntity implements ITieredEntity {
             SynchedEntityData.defineId(RoboEntity.class, EntityDataSerializers.STRING);
 
     // defineSynchedData は vanilla Entity#defineSynchedData のオーバーライドのため、
-    // 配布jarではSRG名（例: m_8097_）にリネームされている。remap=true で解決する。
-    @Inject(method = "defineSynchedData", at = @At("TAIL"), remap = true)
+    // 配布jarではSRG名 m_8097_ にリネームされている。remap=trueはrefmap未生成のため効かないので
+    // SRG名を直接指定する（開発環境(deobf)用に元の名前も併記）。
+    @Inject(method = {"defineSynchedData", "m_8097_"}, at = @At("TAIL"), remap = false)
     private void cmpa$defineTier(CallbackInfo ci) {
         RoboEntity self = (RoboEntity) (Object) this;
         self.getEntityData().define(cmpa$TIER_KEY, "");

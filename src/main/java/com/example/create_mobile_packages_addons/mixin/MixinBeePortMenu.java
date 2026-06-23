@@ -23,8 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinBeePortMenu {
 
     // quickMoveStack は vanilla AbstractContainerMenu#quickMoveStack のオーバーライドのため、
-    // 配布jarではSRG名（例: m_7648_）にリネームされている。remap=true で解決する。
-    @Inject(method = "quickMoveStack", at = @At("HEAD"), cancellable = true, remap = true)
+    // 配布jarではSRG名 m_7648_ にリネームされている。remap=trueはrefmap未生成のため効かないので
+    // SRG名を直接指定する（開発環境(deobf)用に元の名前も併記）。
+    @Inject(method = {"quickMoveStack", "m_7648_"}, at = @At("HEAD"), cancellable = true, remap = false)
     private void cmpa$allowTieredQuickMove(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
         BeePortMenu self = (BeePortMenu) (Object) this;
         if (index == 54) {
