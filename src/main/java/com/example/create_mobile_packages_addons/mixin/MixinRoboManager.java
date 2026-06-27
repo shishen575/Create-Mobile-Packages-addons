@@ -3,7 +3,6 @@ package com.example.create_mobile_packages_addons.mixin;
 import com.example.create_mobile_packages_addons.BeeTier;
 import com.example.create_mobile_packages_addons.items.TieredRoboBeeItem;
 import com.example.create_mobile_packages_addons.tier.ITieredRobo;
-import de.theidler.create_mobile_packages.blocks.bee_port.RoboRequest;
 import de.theidler.create_mobile_packages.robo.RoboManager;
 import de.theidler.create_mobile_packages.robo.VirtualRobo;
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
@@ -40,11 +39,16 @@ public abstract class MixinRoboManager {
         cmpa$applyPlacingTier(robo);
     }
 
-    @Inject(method = "newRequestRobo", at = @At("RETURN"))
-    private void cmpa$tagRequestTier(ServerLevel level, BlockPos spawnPos, RoboRequest request, CallbackInfo ci,
-                                      VirtualRobo robo) {
-        if (robo == null) return;
+    // newRequestRobo は生成したVirtualRoboをローカル変数にしか保持せず戻り値もないため、
+    // ローカル変数キャプチャ（LVT情報）に依存する@Injectは配布jar側にLVT情報が無いと
+    // クラッシュする。代わりに、メソッド内部の this.add(robo) 呼び出し自体を横取りして
+    // 引数からrobo参照を直接得る（LVT不要で安全）。
+    @Redirect(method = "newRequestRobo",
+            at = @At(value = "INVOKE",
+                    target = "Lde/theidler/create_mobile_packages/robo/RoboManager;add(Lde/theidler/create_mobile_packages/robo/VirtualRobo;)V"))
+    private void cmpa$addAndTagRequestRobo(RoboManager manager, VirtualRobo robo) {
         cmpa$applyPlacingTier(robo);
+        manager.add(robo);
     }
 
     private static void cmpa$applyPlacingTier(VirtualRobo robo) {
