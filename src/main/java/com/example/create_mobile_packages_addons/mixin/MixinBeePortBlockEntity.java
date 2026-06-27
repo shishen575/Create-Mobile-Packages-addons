@@ -1,5 +1,6 @@
 package com.example.create_mobile_packages_addons.mixin;
 
+import com.example.create_mobile_packages_addons.config.CMPAddonsConfig;
 import com.example.create_mobile_packages_addons.tier.ITieredRobo;
 import com.example.create_mobile_packages_addons.items.TieredRoboBeeItem;
 import de.theidler.create_mobile_packages.blocks.bee_port.BeePortBlockEntity;
@@ -27,6 +28,27 @@ import java.util.Objects;
  */
 @Mixin(value = BeePortBlockEntity.class, remap = false)
 public abstract class MixinBeePortBlockEntity {
+
+    /**
+     * {@code roboBeeInventory} は {@code new ItemStackHandler(1)} として生成され、
+     * {@code getSlotLimit(0)} は常に固定で64を返す（{@code stackSize} configの値が
+     * 大きくても、Bee Port自体の保管上限は64個のまま）。これが原因で、Tierアイテムの
+     * 最大スタック数を増やしても、Bee Portの保管スロット自体は64個で「満杯」と
+     * 判定され、右クリックで配置したBeeの帰還先（ホームポート）として選べなくなる
+     * （{@code isFull}/{@code hasFullRoboSlot}が常にtrueになるため）。
+     *
+     * <p>ここで生成されるインスタンスを、{@code getSlotLimit}をconfigの
+     * {@code stackSize}に合わせて返すサブクラスに置き換える。
+     */
+    @Redirect(method = "<init>", at = @At(value = "NEW", target = "Lnet/minecraftforge/items/ItemStackHandler;"))
+    private ItemStackHandler cmpa$expandedRoboBeeInventory(int size) {
+        return new ItemStackHandler(size) {
+            @Override
+            public int getSlotLimit(int slot) {
+                return CMPAddonsConfig.getStackSizeSafe();
+            }
+        };
+    }
 
     @Redirect(method = "tryConsumeDrone",
             at = @At(value = "INVOKE",
