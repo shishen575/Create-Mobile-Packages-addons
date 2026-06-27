@@ -45,6 +45,15 @@ public abstract class MixinBeePortMenu {
         Slot roboBeeSlot = self.slots.get(54);
         ItemStack targetStack = roboBeeSlot.getItem();
 
+        // スロットに既に「別のTier」のBeeが入っている場合は移動しない
+        // （CMP本体はスロットに単一種類のアイテムしか入らない前提のため、
+        // Tierが混在すると内部の状態管理が壊れる）。
+        if (!targetStack.isEmpty() && !ItemStack.isSameItemSameTags(targetStack, stack)) {
+            cir.setReturnValue(ItemStack.EMPTY);
+            cir.cancel();
+            return;
+        }
+
         int maxStackSize = stack.getMaxStackSize();
         int space = maxStackSize - (targetStack.isEmpty() ? 0 : targetStack.getCount());
 

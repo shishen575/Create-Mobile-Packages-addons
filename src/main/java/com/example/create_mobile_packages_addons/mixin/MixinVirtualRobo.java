@@ -6,11 +6,13 @@ import com.example.create_mobile_packages_addons.tier.ITieredRobo;
 import de.theidler.create_mobile_packages.robo.VirtualRobo;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -60,5 +62,23 @@ public abstract class MixinVirtualRobo implements ITieredRobo {
         if (roboTag.contains("cmpa_tier")) {
             ((ITieredRobo) cir.getReturnValue()).cmpa$setTierKeySilently(roboTag.getString("cmpa_tier"));
         }
+    }
+
+    /**
+     * CMP本体の {@code updateEta} は {@code CMPHelper.calcETA} を呼ぶ際、
+     * config のデフォルト速度（{@code beeSpeed}）を常に使っており、
+     * Tierで上昇した実際の速度を無視していたため到着予測時間が不正確だった。
+     * ここでこのRoboの実際の速度を使って再計算する。
+     */
+    @Redirect(method = "updateEta",
+            at = @At(value = "INVOKE",
+                    target = "Lde/theidler/create_mobile_packages/CMPHelper;calcETA(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)I"))
+    private int cmpa$calcEtaWithActualSpeed(Vec3 targetPosition, Vec3 currentPosition) {
+        if (targetPosition == null || currentPosition == null) return -1;
+        VirtualRobo self = (VirtualRobo) (Object) this;
+        int speed = self.getSpeed();
+        if (speed <= 0) return -1;
+        double distance = targetPosition.distanceTo(currentPosition);
+        return (int) (distance / speed) + 1;
     }
 }

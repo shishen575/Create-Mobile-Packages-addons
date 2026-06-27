@@ -13,7 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * {@code stack.getItem() == CMPItems.ROBO_BEE.get()} という厳密な一致チェックを
  * しているため、別アイテムである {@link TieredRoboBeeItem} は本来挿入できない。
  *
- * <p>ここで Tier 付きアイテムも受け入れるように許可を追加する。
+ * <p>ここで Tier 付きアイテムも受け入れるように許可を追加する。ただし、
+ * スロットに既に「別のTier」のBeeが入っている場合は許可しない（CMP本体はスロットに
+ * 単一種類のアイテムしか入らない前提で実装されているため、Tierが混在すると
+ * 内部の状態管理が壊れ「ターゲットがない」表示などの不具合につながる）。
  */
 @Mixin(value = BeePortBeeStackHandler.class, remap = false)
 public abstract class MixinBeePortBeeStackHandler {
@@ -24,7 +27,10 @@ public abstract class MixinBeePortBeeStackHandler {
     @Inject(method = {"mayPlace", "m_5857_"}, at = @At("HEAD"), cancellable = true, remap = false)
     private void cmpa$allowTieredBee(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (TieredRoboBeeItem.isTiered(stack)) {
-            cir.setReturnValue(true);
+            BeePortBeeStackHandler self = (BeePortBeeStackHandler) (Object) this;
+            ItemStack current = self.getItem();
+            boolean compatible = current.isEmpty() || ItemStack.isSameItemSameTags(current, stack);
+            cir.setReturnValue(compatible);
             cir.cancel();
         }
     }
