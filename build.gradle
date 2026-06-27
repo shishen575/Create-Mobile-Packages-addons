@@ -62,7 +62,9 @@ dependencies {
 }
 
 jar {
-    archiveFileName = "create_mobile_packages_addons-[${loaderName}-${mcVersion}-${modVersion}].jar"
+    // 角カッコ([])はJavaのモジュールバージョン解析(JPMS)を壊し、起動時に
+    // 「Version string does not start with a number」でクラッシュするため使用しない。
+    archiveFileName = "create_mobile_packages_addons-${loaderName}-${mcVersion}-${modVersion}.jar"
     manifest {
         attributes([
             'Specification-Title'     : 'create_mobile_packages_addons',
