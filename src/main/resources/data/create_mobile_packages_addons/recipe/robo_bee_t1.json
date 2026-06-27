@@ -11,7 +11,7 @@
     "B": { "item": "create_mobile_packages:robo_bee" }
   },
   "result": {
-    "item": "create_mobile_packages_addons:robo_bee_t1",
+    "id": "create_mobile_packages_addons:robo_bee_t1",
     "count": 1
   }
 }
