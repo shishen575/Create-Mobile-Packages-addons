@@ -6,8 +6,8 @@ import de.theidler.create_mobile_packages.items.robo_bee.RoboBeeItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipContext;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +73,7 @@ public class TieredRoboBeeItem extends RoboBeeItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context,
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context,
                                  List<Component> lines, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, context, lines, flag);
 
