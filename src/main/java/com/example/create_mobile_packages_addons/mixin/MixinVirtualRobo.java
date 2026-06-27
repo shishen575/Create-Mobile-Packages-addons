@@ -79,6 +79,10 @@ public abstract class MixinVirtualRobo implements ITieredRobo {
         int speed = self.getSpeed();
         if (speed <= 0) return -1;
         double distance = targetPosition.distanceTo(currentPosition);
-        return (int) (distance / speed) + 1;
+        int eta = (int) (distance / speed) + 1;
+        com.example.create_mobile_packages_addons.CMPAddons.LOGGER.info(
+                "[cmpa-debug] calcEta speed={} distance={} eta={} tierKey={}",
+                speed, distance, eta, cmpa$tierKey);
+        return eta;
     }
 }
