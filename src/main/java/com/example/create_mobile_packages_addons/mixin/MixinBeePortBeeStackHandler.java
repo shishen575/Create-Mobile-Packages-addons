@@ -17,19 +17,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * スロットに既に「別のTier」のBeeが入っている場合は許可しない（CMP本体はスロットに
  * 単一種類のアイテムしか入らない前提で実装されているため、Tierが混在すると
  * 内部の状態管理が壊れ「ターゲットがない」表示などの不具合につながる）。
+ *
+ * <p>NeoForgeはMojang公式マッピングをそのまま使うため、Forge版で必要だった
+ * SRG名の併記は不要。
  */
 @Mixin(value = BeePortBeeStackHandler.class, remap = false)
 public abstract class MixinBeePortBeeStackHandler {
 
-    // mayPlace は vanilla Slot#mayPlace のオーバーライドのため、配布jarではSRG名
-    // m_5857_ にリネームされている（remap=trueはrefmap未生成のため効かないので、
-    // SRG名を直接指定する。開発環境(deobf)用に元の名前も併記）。
-    @Inject(method = {"mayPlace", "m_5857_"}, at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "mayPlace", at = @At("HEAD"), cancellable = true)
     private void cmpa$allowTieredBee(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (TieredRoboBeeItem.isTiered(stack)) {
             BeePortBeeStackHandler self = (BeePortBeeStackHandler) (Object) this;
             ItemStack current = self.getItem();
-            boolean compatible = current.isEmpty() || ItemStack.isSameItemSameTags(current, stack);
+            boolean compatible = current.isEmpty() || ItemStack.isSameItemSameComponents(current, stack);
             cir.setReturnValue(compatible);
             cir.cancel();
         }

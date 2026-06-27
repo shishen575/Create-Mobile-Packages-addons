@@ -1,2 +1,2 @@
-このフォルダに create_mobile_packages-1.20.1-0.6.1.jar を配置してください。
-build.gradle の compileOnly fg.deobf(files(...)) 行のパスと合わせてください。
+このフォルダに create_mobile_packages-1.21.1-0.7.0.jar を配置してください。
+build.gradle の compileOnly(files(...)) 行のパスと合わせてください。

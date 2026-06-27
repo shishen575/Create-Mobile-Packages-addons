@@ -1,14 +1,12 @@
-name: Build Minecraft Forge Mod
+name: Build NeoForge Mod (1.21.1)
 
 on:
   push:
     branches:
-      - main
-      - master
+      - mc1.21.1
   pull_request:
     branches:
-      - main
-      - master
+      - mc1.21.1
   release:
     types: [created]
 
@@ -23,10 +21,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle wrapper
@@ -45,19 +43,19 @@ jobs:
 
       - name: "Place Create: Mobile Packages jar"
         env:
-          CMP_JAR_URL: ${{ secrets.CMP_JAR_URL }}
+          CMP_JAR_URL_1211: ${{ secrets.CMP_JAR_URL_1211 }}
         run: |
           mkdir -p libs
-          TARGET="libs/create_mobile_packages-1.20.1-0.6.1.jar"
-          if [ -n "$CMP_JAR_URL" ]; then
-            echo "Downloading Create: Mobile Packages jar from secrets.CMP_JAR_URL"
-            curl -fL -A "Mozilla/5.0" "$CMP_JAR_URL" -o "$TARGET"
+          TARGET="libs/create_mobile_packages-1.21.1-0.7.0.jar"
+          if [ -n "$CMP_JAR_URL_1211" ]; then
+            echo "Downloading Create: Mobile Packages jar from secrets.CMP_JAR_URL_1211"
+            curl -fL -A "Mozilla/5.0" "$CMP_JAR_URL_1211" -o "$TARGET"
             if ! unzip -l "$TARGET" >/dev/null 2>&1; then
-              echo "::error::Downloaded file is not a valid jar/zip. CMP_JAR_URL may not point directly to the jar (e.g. it returned an HTML page)."
+              echo "::error::Downloaded file is not a valid jar/zip. CMP_JAR_URL_1211 may not point directly to the jar (e.g. it returned an HTML page)."
               exit 1
             fi
           else
-            echo "::error::secrets.CMP_JAR_URL is not set. Create: Mobile Packages is a third-party mod jar and cannot be redistributed in this repo. Add a repository secret named CMP_JAR_URL pointing to a download URL for the jar (e.g. a private storage link), or build locally with the jar placed in libs/."
+            echo "::error::secrets.CMP_JAR_URL_1211 is not set. Create: Mobile Packages is a third-party mod jar and cannot be redistributed in this repo. Add a repository secret named CMP_JAR_URL_1211 pointing to a download URL for the 1.21.1 jar (e.g. a private storage link), or build locally with the jar placed in libs/."
             exit 1
           fi
 
@@ -67,9 +65,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-1211-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-gradle-1211-
 
       - name: Build with Gradle
         run: ./gradlew build
@@ -79,7 +77,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: create-mobile-packages-addons
+          name: create-mobile-packages-addons-1.21.1
           path: build/libs/*.jar
           if-no-files-found: error
 
@@ -92,10 +90,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle wrapper
@@ -114,18 +112,18 @@ jobs:
 
       - name: "Place Create: Mobile Packages jar"
         env:
-          CMP_JAR_URL: ${{ secrets.CMP_JAR_URL }}
+          CMP_JAR_URL_1211: ${{ secrets.CMP_JAR_URL_1211 }}
         run: |
           mkdir -p libs
-          TARGET="libs/create_mobile_packages-1.20.1-0.6.1.jar"
-          if [ -n "$CMP_JAR_URL" ]; then
-            curl -fL -A "Mozilla/5.0" "$CMP_JAR_URL" -o "$TARGET"
+          TARGET="libs/create_mobile_packages-1.21.1-0.7.0.jar"
+          if [ -n "$CMP_JAR_URL_1211" ]; then
+            curl -fL -A "Mozilla/5.0" "$CMP_JAR_URL_1211" -o "$TARGET"
             if ! unzip -l "$TARGET" >/dev/null 2>&1; then
-              echo "::error::Downloaded file is not a valid jar/zip. CMP_JAR_URL may not point directly to the jar."
+              echo "::error::Downloaded file is not a valid jar/zip. CMP_JAR_URL_1211 may not point directly to the jar."
               exit 1
             fi
           else
-            echo "::error::secrets.CMP_JAR_URL is not set."
+            echo "::error::secrets.CMP_JAR_URL_1211 is not set."
             exit 1
           fi
 
@@ -135,9 +133,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-1211-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-gradle-1211-
 
       - name: Build with Gradle
         run: ./gradlew build

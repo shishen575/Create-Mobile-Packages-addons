@@ -1,62 +1,62 @@
 plugins {
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.neoforged.moddev' version '2.0.78'
 }
 
 version = '1.0.0'
 group = 'com.example.create_mobile_packages_addons'
-archivesBaseName = 'create_mobile_packages_addons'
-
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+base {
+    archivesName = 'create_mobile_packages_addons'
 }
 
-minecraft {
-    mappings channel: 'parchment', version: '2023.09.03-1.20.1'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = neo_version
+
+    parchment {
+        mappingsVersion = parchment_mappings_version
+        minecraftVersion = parchment_minecraft_version
+    }
 
     runs {
         client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods { create_mobile_packages_addons { source sourceSets.main } }
+            client()
         }
         server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods { create_mobile_packages_addons { source sourceSets.main } }
+            server()
+            programArgument '--nogui'
+        }
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
         }
     }
 }
 
 repositories {
-    maven { url 'https://maven.minecraftforge.net/' }
-    maven { url 'https://maven.parchmentmc.org' }
-    maven { url 'https://maven.createmod.net' }
-    maven { url 'https://mvn.devos.one/snapshots/' }
-    maven { url 'https://maven.tterrag.com' }
-    // Create: Mobile Packages のローカルjar or maven があればここに追加
-    // maven { url 'file:///path/to/local/maven' }
+    maven { url = "https://maven.createmod.net" } // Create, Ponder, Flywheel
+    maven { url = "https://mvn.devos.one/snapshots" } // Registrate
+    // Create: Mobile Packages を libs/ フォルダに配置して参照
     flatDir { dirs 'libs' }
+    mavenCentral()
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.3.0'
-
-    // Create Mod
-    implementation fg.deobf("com.simibubi.create:create-1.20.1:6.0.8-289:slim") { transitive = false }
-    implementation fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:1.0.5")
-    implementation fg.deobf("dev.engine-room.flywheel:flywheel-forge-1.20.1:1.0.5")
-    implementation fg.deobf("com.tterrag.registrate:Registrate:MC1.20-1.3.3")
-    implementation fg.deobf("net.createmod.ponder:Ponder-Forge-1.20.1:1.0.91")
+    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
+    implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}")
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
+    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
+    implementation("com.tterrag.registrate:Registrate:${registrate_version}")
 
     // Create: Mobile Packages を libs/ フォルダに配置して参照
-    // implementation fg.deobf(files("libs/create_mobile_packages-1.20.1-0.6.1.jar"))
-    compileOnly fg.deobf(files("libs/create_mobile_packages-1.20.1-0.6.1.jar"))
+    compileOnly(files("libs/create_mobile_packages-${minecraft_version}-${cmp_version}.jar"))
 }
 
-// Jarタスク
 jar {
     manifest {
         attributes([
@@ -66,8 +66,7 @@ jar {
             'Implementation-Title'    : project.name,
             'Implementation-Version'  : project.jar.archiveVersion,
             'Implementation-Vendor'   : 'example',
-            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            'MixinConfigs'            : 'create_mobile_packages_addons.mixins.json'
+            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }

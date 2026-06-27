@@ -22,10 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = BeePortMenu.class, remap = false)
 public abstract class MixinBeePortMenu {
 
-    // quickMoveStack は vanilla AbstractContainerMenu#quickMoveStack のオーバーライドのため、
-    // 配布jarではSRG名 m_7648_ にリネームされている。remap=trueはrefmap未生成のため効かないので
-    // SRG名を直接指定する（開発環境(deobf)用に元の名前も併記）。
-    @Inject(method = {"quickMoveStack", "m_7648_"}, at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "quickMoveStack", at = @At("HEAD"), cancellable = true)
     private void cmpa$allowTieredQuickMove(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
         BeePortMenu self = (BeePortMenu) (Object) this;
         if (index == 54) {
@@ -48,7 +45,7 @@ public abstract class MixinBeePortMenu {
         // スロットに既に「別のTier」のBeeが入っている場合は移動しない
         // （CMP本体はスロットに単一種類のアイテムしか入らない前提のため、
         // Tierが混在すると内部の状態管理が壊れる）。
-        if (!targetStack.isEmpty() && !ItemStack.isSameItemSameTags(targetStack, stack)) {
+        if (!targetStack.isEmpty() && !ItemStack.isSameItemSameComponents(targetStack, stack)) {
             cir.setReturnValue(ItemStack.EMPTY);
             cir.cancel();
             return;

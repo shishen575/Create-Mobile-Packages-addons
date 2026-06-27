@@ -4,15 +4,13 @@ import com.example.create_mobile_packages_addons.BeeTier;
 import com.example.create_mobile_packages_addons.config.CMPAddonsConfig;
 import de.theidler.create_mobile_packages.items.robo_bee.RoboBeeItem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipContext;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -66,12 +64,8 @@ public class TieredRoboBeeItem extends RoboBeeItem {
         return stack.getItem() instanceof TieredRoboBeeItem;
     }
 
-    /** このItemStackのTierを取得（NBT優先、なければフィールド値） */
+    /** このItemStackのTierを取得 */
     public static BeeTier getTierFromStack(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("cmp_tier")) {
-            return BeeTier.fromKey(tag.getString("cmp_tier"));
-        }
         if (stack.getItem() instanceof TieredRoboBeeItem tiered) {
             return tiered.tier;
         }
@@ -79,9 +73,9 @@ public class TieredRoboBeeItem extends RoboBeeItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level,
-                                List<Component> lines, TooltipFlag flag) {
-        super.appendHoverText(stack, level, lines, flag);
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context,
+                                 List<Component> lines, @NotNull TooltipFlag flag) {
+        super.appendHoverText(stack, context, lines, flag);
 
         BeeTier t = getTierFromStack(stack);
         double multiplier = CMPAddonsConfig.getMultiplierForTier(t);

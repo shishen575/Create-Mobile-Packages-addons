@@ -1,9 +1,9 @@
 package com.example.create_mobile_packages_addons.config;
 
 import com.example.create_mobile_packages_addons.BeeTier;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -13,39 +13,39 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class CMPAddonsConfig {
 
-    public static final ForgeConfigSpec SERVER_SPEC;
+    public static final ModConfigSpec SERVER_SPEC;
     public static final Server SERVER;
 
     static {
-        Pair<Server, ForgeConfigSpec> pair =
-                new ForgeConfigSpec.Builder().configure(Server::new);
+        Pair<Server, ModConfigSpec> pair =
+                new ModConfigSpec.Builder().configure(Server::new);
         SERVER      = pair.getLeft();
         SERVER_SPEC = pair.getRight();
     }
 
-    /** コンフィグをForgeに登録（メインクラスのコンストラクタから呼ぶ） */
-    public static void register() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_SPEC, "create_mobile_packages_addons-server.toml");
+    /** コンフィグをNeoForgeに登録（メインクラスのコンストラクタから呼ぶ） */
+    public static void register(ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.SERVER, SERVER_SPEC, "create_mobile_packages_addons-server.toml");
     }
 
     public static class Server {
 
         /** 無印の Robo Bee（Tierなし）に掛ける速度倍率 */
-        public final ForgeConfigSpec.DoubleValue roboBeeSpeedMultiplier;
+        public final ModConfigSpec.DoubleValue roboBeeSpeedMultiplier;
 
         /** Tier 1 アイテムの速度倍率 */
-        public final ForgeConfigSpec.DoubleValue tier1SpeedMultiplier;
+        public final ModConfigSpec.DoubleValue tier1SpeedMultiplier;
 
         /** Tier 2 アイテムの速度倍率 */
-        public final ForgeConfigSpec.DoubleValue tier2SpeedMultiplier;
+        public final ModConfigSpec.DoubleValue tier2SpeedMultiplier;
 
         /** Tier 3 アイテムの速度倍率 */
-        public final ForgeConfigSpec.DoubleValue tier3SpeedMultiplier;
+        public final ModConfigSpec.DoubleValue tier3SpeedMultiplier;
 
         /** Tier付きRoboBeeアイテムの最大スタック数 */
-        public final ForgeConfigSpec.IntValue stackSize;
+        public final ModConfigSpec.IntValue stackSize;
 
-        Server(ForgeConfigSpec.Builder builder) {
+        Server(ModConfigSpec.Builder builder) {
 
             builder.comment("Create: Mobile Packages - 輸送速度調整")
                    .push("transportSpeed");

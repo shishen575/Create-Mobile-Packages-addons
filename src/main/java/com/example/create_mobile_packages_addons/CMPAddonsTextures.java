@@ -7,11 +7,11 @@ import org.jetbrains.annotations.Nullable;
 public class CMPAddonsTextures {
 
     private static final ResourceLocation TIER_1 =
-            new ResourceLocation(CMPAddons.MOD_ID, "textures/entity/robo_bee_t1.png");
+            ResourceLocation.fromNamespaceAndPath(CMPAddons.MOD_ID, "textures/entity/robo_bee_t1.png");
     private static final ResourceLocation TIER_2 =
-            new ResourceLocation(CMPAddons.MOD_ID, "textures/entity/robo_bee_t2.png");
+            ResourceLocation.fromNamespaceAndPath(CMPAddons.MOD_ID, "textures/entity/robo_bee_t2.png");
     private static final ResourceLocation TIER_3 =
-            new ResourceLocation(CMPAddons.MOD_ID, "textures/entity/robo_bee_t3.png");
+            ResourceLocation.fromNamespaceAndPath(CMPAddons.MOD_ID, "textures/entity/robo_bee_t3.png");
 
     /** Tierキー文字列からテクスチャを返す。null/空/不明なキーの場合は null（無印テクスチャを使うべきことを示す） */
     public static @Nullable ResourceLocation forTierKey(@Nullable String tierKey) {
