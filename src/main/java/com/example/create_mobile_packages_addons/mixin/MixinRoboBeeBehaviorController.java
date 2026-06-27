@@ -21,6 +21,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
  *
  * <p>ここで {@code handleShutdown} 内の呼び出しを横取りし、
  * 配達してきた VirtualRobo の Tier に応じたアイテムを戻すようにする。
+ *
+ * <p>別Tierが混在するポートへ向かわせない対策は {@code MixinBeePortBlockEntity}
+ * の {@code canAcceptEntity} 側で行っているため、ここに到達する時点では
+ * スロットは互換性があるはずである。
  */
 @Mixin(value = RoboBeeBehaviorController.class, remap = false)
 public abstract class MixinRoboBeeBehaviorController {
