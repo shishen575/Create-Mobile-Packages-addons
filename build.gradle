@@ -2,7 +2,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.78'
 }
 
-def modVersion = '1.0.0'
+def modVersion = '1.0.1'
 def mcVersion = '1.21.1'
 def loaderName = 'neoforge'
 
