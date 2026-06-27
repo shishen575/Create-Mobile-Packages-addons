@@ -3,7 +3,11 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-version = '1.0.0'
+def modVersion = '1.0.0'
+def mcVersion = '1.20.1'
+def loaderName = 'forge'
+
+version = modVersion
 group = 'com.example.create_mobile_packages_addons'
 archivesBaseName = 'create_mobile_packages_addons'
 
@@ -58,6 +62,7 @@ dependencies {
 
 // Jarタスク
 jar {
+    archiveFileName = "create_mobile_packages_addons-[${loaderName}-${mcVersion}-${modVersion}].jar"
     manifest {
         attributes([
             'Specification-Title'     : 'create_mobile_packages_addons',
