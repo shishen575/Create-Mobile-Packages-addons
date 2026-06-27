@@ -2,9 +2,6 @@ modLoader="javafml"
 loaderVersion="[47,)"
 license="MIT"
 
-[[mixins]]
-    config="create_mobile_packages_addons.mixins.json"
-
 [[dependencies.create_mobile_packages_addons]]
     modId="forge"
     mandatory=true
