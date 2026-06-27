@@ -46,7 +46,7 @@ public class TieredRoboBeeItem extends RoboBeeItem {
      */
     @Override
     public int getMaxStackSize(@NotNull ItemStack stack) {
-        return CMPAddonsConfig.SERVER.stackSize.get();
+        return CMPAddonsConfig.getStackSizeSafe();
     }
 
     @Override

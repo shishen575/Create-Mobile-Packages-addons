@@ -84,12 +84,42 @@ public class CMPAddonsConfig {
         }
     }
 
+    /** 無印 Robo Bee の速度倍率を安全に取得する（config未読み込み時はデフォルト1.0） */
+    public static double getRoboBeeSpeedMultiplierSafe() {
+        if (!SERVER_SPEC.isLoaded()) {
+            return 1.0D;
+        }
+        return SERVER.roboBeeSpeedMultiplier.get();
+    }
+
     /** Tierから速度倍率を取得 */
     public static double getMultiplierForTier(BeeTier tier) {
+        if (!SERVER_SPEC.isLoaded()) {
+            return switch (tier) {
+                case TIER_1 -> 2.0D;
+                case TIER_2 -> 4.0D;
+                case TIER_3 -> 6.0D;
+            };
+        }
         return switch (tier) {
             case TIER_1 -> SERVER.tier1SpeedMultiplier.get();
             case TIER_2 -> SERVER.tier2SpeedMultiplier.get();
             case TIER_3 -> SERVER.tier3SpeedMultiplier.get();
         };
+    }
+
+    /**
+     * Tier付きRoboBeeアイテムの最大スタック数を取得する。
+     *
+     * <p>ワールド作成時のレシピ検証など、SERVERコンフィグがまだ読み込まれていない
+     * タイミングで呼ばれることがあるため、未読み込み時はデフォルト値(64)を返す
+     * （{@code SERVER.stackSize.get()} を未読み込み状態で呼ぶと
+     * {@code IllegalStateException} でクラッシュする）。
+     */
+    public static int getStackSizeSafe() {
+        if (!SERVER_SPEC.isLoaded()) {
+            return 64;
+        }
+        return SERVER.stackSize.get();
     }
 }
