@@ -16,7 +16,6 @@ public class CMPAddons {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public CMPAddons() {
-        LOGGER.info("[cmpa-debug] CMPAddons constructor running, logger works");
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // コンフィグ登録（最初に行う）

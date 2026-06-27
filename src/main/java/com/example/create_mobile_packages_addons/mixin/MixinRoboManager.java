@@ -34,5 +34,6 @@ public abstract class MixinRoboManager {
 
         BeeTier tier = TieredRoboBeeItem.PLACING_TIER.get();
         ((ITieredRobo) robo).cmpa$setTierAndApplySpeed(tier);
+        TieredRoboBeeItem.PLACING_TIER.remove();
     }
 }

@@ -1,13 +1,12 @@
 {
-  "_comment": "Tier3 Robo Bee: Tier2 + ネザライト + エコーシャードでアップグレード",
+  "_comment": "Tier3 Robo Bee: Tier2の周囲をネザライトインゴット8個で囲む",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ENE",
+    "NNN",
     "NBN",
-    "ENE"
+    "NNN"
   ],
   "key": {
-    "E": { "item": "minecraft:echo_shard" },
     "N": { "item": "minecraft:netherite_ingot" },
     "B": { "item": "create_mobile_packages_addons:robo_bee_t2" }
   },

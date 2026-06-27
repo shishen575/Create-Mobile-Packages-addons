@@ -1,10 +1,10 @@
 {
-  "_comment": "Tier1 Robo Bee: 通常のRoboBee + 素材でクラフト",
+  "_comment": "Tier1 Robo Bee: 通常のRoboBeeの周囲を金インゴット8個で囲む",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " G ",
+    "GGG",
     "GBG",
-    " G "
+    "GGG"
   ],
   "key": {
     "G": { "item": "minecraft:gold_ingot" },

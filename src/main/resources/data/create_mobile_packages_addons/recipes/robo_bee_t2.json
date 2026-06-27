@@ -1,10 +1,10 @@
 {
-  "_comment": "Tier2 Robo Bee: Tier1 + ダイヤモンドでアップグレード",
+  "_comment": "Tier2 Robo Bee: Tier1の周囲をダイヤモンド8個で囲む",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " D ",
+    "DDD",
     "DBD",
-    " D "
+    "DDD"
   ],
   "key": {
     "D": { "item": "minecraft:diamond" },

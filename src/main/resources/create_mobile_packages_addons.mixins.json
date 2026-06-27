@@ -10,7 +10,8 @@
     "VirtualRoboAccessor",
     "MixinBeePortBeeStackHandler",
     "MixinBeePortMenu",
-    "MixinRoboBeeBehaviorController"
+    "MixinRoboBeeBehaviorController",
+    "MixinBeePortBlockEntity"
   ],
   "client": [
     "MixinDroneEntityRenderer"

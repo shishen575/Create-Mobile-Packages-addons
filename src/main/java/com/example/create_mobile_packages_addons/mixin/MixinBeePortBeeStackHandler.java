@@ -1,13 +1,11 @@
 package com.example.create_mobile_packages_addons.mixin;
 
-import com.example.create_mobile_packages_addons.CMPAddons;
 import com.example.create_mobile_packages_addons.items.TieredRoboBeeItem;
 import de.theidler.create_mobile_packages.blocks.bee_port.BeePortBeeStackHandler;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -20,20 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = BeePortBeeStackHandler.class, remap = false)
 public abstract class MixinBeePortBeeStackHandler {
 
-    // デバッグ: このMixin自体がクラスに適用されているか確認するため、
-    // コンストラクタ末尾でログを出す（メソッド名に依存しないので必ず呼ばれるはず）。
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void cmpa$debugCtor(net.minecraftforge.items.IItemHandler itemHandler, int index, int x, int y, CallbackInfo ci) {
-        CMPAddons.LOGGER.info("[cmpa-debug] BeePortBeeStackHandler constructed, mixin applied OK");
-    }
-
     // mayPlace は vanilla Slot#mayPlace のオーバーライドのため、配布jarではSRG名
     // m_5857_ にリネームされている（remap=trueはrefmap未生成のため効かないので、
     // SRG名を直接指定する。開発環境(deobf)用に元の名前も併記）。
     @Inject(method = {"mayPlace", "m_5857_"}, at = @At("HEAD"), cancellable = true, remap = false)
     private void cmpa$allowTieredBee(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        CMPAddons.LOGGER.info("[cmpa-debug] mayPlace called with stack={} isTiered={}",
-                stack, TieredRoboBeeItem.isTiered(stack));
         if (TieredRoboBeeItem.isTiered(stack)) {
             cir.setReturnValue(true);
             cir.cancel();
